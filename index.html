@@ -16,21 +16,30 @@
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Offline First Chat Demo</a>
+						<a class="navbar-brand" href="#">Offline First Demo</a>
+						<a class="navbar-brand logout" ng-click="logout()" href="#" ng-if="$storage.loggedIn">Logout</a>
 					</div>
 				</div>
 			</nav>
 		</header>
 		<main>
 			<div class="container">
-				<div class="panel panel-default" ng-show="!loggedIn">
+
+				<div class="alert alert-danger" role="alert" ng-if="!connection.online">
+					You’re offline... waiting for connection...
+				</div>
+				<div class="alert alert-success" role="alert" ng-if="connection.online">
+					You’re online... have a nice chat :)
+				</div>
+
+				<div class="panel panel-default" ng-show="!$storage.loggedIn">
 				  <div class="panel-heading">
 				    <h3 class="panel-title">Who are you?</h3>
 				  </div>
 				  <div class="panel-body">
 				  	<form ng-submit="login()">
 					    <div class="input-group">
-					      <input type="text" class="form-control" placeholder="Username" ng-model="nickName" autofocus required>
+					      <input type="text" class="form-control" placeholder="Username" ng-model="$storage.nickName" autofocus required>
 					      <span class="input-group-btn">
 					        <button class="btn btn-default" type="submit">Login</button>
 					      </span>
@@ -39,7 +48,7 @@
 				  </div>
 				</div>
 
-				<div ng-if="loggedIn">
+				<div ng-if="$storage.loggedIn">
 					<p ng-repeat="message in messages | orderBy : 'dateTime' : true">
 						<b>{{message.nickName}}: </b>{{message.message}}
 					</p>
@@ -50,7 +59,7 @@
 		<footer>
 			<div class="container">
 				<form ng-submit="sendMessage()">
-			    <div class="input-group" ng-show="loggedIn">
+			    <div class="input-group" ng-show="$storage.loggedIn">
 			      <input type="text" class="form-control" placeholder="Message ..." ng-model="message" autofocus required>
 			      <span class="input-group-btn">
 			        <button class="btn btn-default" type="submit">Send</button>
@@ -64,6 +73,7 @@
 	<script type="text/javascript" src="scripts/firebase.js"></script>
 	<script type="text/javascript" src="scripts/angular.js"></script>
 	<script type="text/javascript" src="scripts/angularfire.js"></script>
+	<script type="text/javascript" src="scripts/angularstorage.js"></script>
 	<script type="text/javascript" src="scripts/app.js"></script>
 
 </body>
