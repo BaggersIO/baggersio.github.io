@@ -1,11 +1,12 @@
 CACHE MANIFEST
-# rev 4jkjfkdslf
+# rev 1
 
 CACHE:
 index.html
 scripts/angular.js
 scripts/angularfire.js
 scripts/angularstorage.js
+scripts/angularappcache.js
 scripts/firebase.js
 scripts/app.js
 styles/bootstrap.css

@@ -5,12 +5,13 @@
 	angular.module('app', [
 
 		'firebase',
-		'ngStorage'
+		'ngStorage',
+		'ng-appcache'
 	])
 
 	.controller('ChatCtrl', [
-		'$scope', '$firebaseArray', '$localStorage', 'connection',
-		function ($scope, $firebaseArray, $localStorage, connection) {
+		'$scope', '$firebaseArray', 'appcache', '$localStorage', 'connection',
+		function ($scope, $firebaseArray, appcache, $localStorage, connection) {
 
 		$scope.$storage = $localStorage;
 		$scope.message;
@@ -19,6 +20,17 @@
 		$scope.logout = logout;
 		$scope.sendMessage = sendMessage;
 		$scope.connection = connection;
+
+		init();
+
+		function init () {
+
+			appcache.checkUpdate().then(function() {
+				if (window.confirm('Application update available. Want to update now?')) {
+					window.location.reload();
+				}
+			});
+		}
 
 		function login () {
 
@@ -46,8 +58,6 @@
 	.service('connection', function () {
 
 		this.online = navigator.onLine;
-
-
 
 		window.addEventListener('online',  function () {
 
